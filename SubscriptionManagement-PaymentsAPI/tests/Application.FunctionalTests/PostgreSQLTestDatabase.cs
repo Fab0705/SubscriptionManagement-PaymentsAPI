@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Respawn;
+using SubscriptionManagement_PaymentsAPI.Application.Common.Interfaces;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Data;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.FunctionalTests;
@@ -37,7 +38,9 @@ public class PostgreSQLTestDatabase : ITestDatabase
             .ConfigureWarnings(warnings => warnings.Log(RelationalEventId.PendingModelChangesWarning))
             .Options;
 
-        var context = new ApplicationDbContext(options);
+        var mockTenantService = new Mock<ICurrentTenantService>();
+
+        var context = new ApplicationDbContext(options, mockTenantService.Object);
 
         await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();

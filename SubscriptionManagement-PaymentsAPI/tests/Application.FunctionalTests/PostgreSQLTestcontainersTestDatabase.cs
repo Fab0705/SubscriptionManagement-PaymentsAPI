@@ -1,10 +1,10 @@
 ﻿using System.Data.Common;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Respawn;
+using SubscriptionManagement_PaymentsAPI.Application.Common.Interfaces;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Data;
 using Testcontainers.PostgreSql;
 
@@ -20,7 +20,7 @@ public class PostgreSQLTestcontainersTestDatabase : ITestDatabase
 
     public PostgreSQLTestcontainersTestDatabase()
     {
-        _container = new PostgreSqlBuilder()
+        _container = new PostgreSqlBuilder("postgres:latest")
             .WithAutoRemove(true)
             .Build();
     }
@@ -44,7 +44,9 @@ public class PostgreSQLTestcontainersTestDatabase : ITestDatabase
             .ConfigureWarnings(warnings => warnings.Log(RelationalEventId.PendingModelChangesWarning))
             .Options;
 
-        var context = new ApplicationDbContext(options);
+        var mockTenantService = new Mock<ICurrentTenantService>();
+
+        var context = new ApplicationDbContext(options, mockTenantService.Object);
 
         await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
