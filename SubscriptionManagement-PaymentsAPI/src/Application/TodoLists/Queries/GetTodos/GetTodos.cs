@@ -25,7 +25,7 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
         {
             PriorityLevels = Enum.GetValues(typeof(PriorityLevel))
                 .Cast<PriorityLevel>()
-                .Select(p => new LookupDto { Id = (int)p, Title = p.ToString() })
+                .Select(p => new LookupDto { Id = Guid.NewGuid(), Title = p.ToString() })
                 .ToList(),
 
             Lists = await _context.TodoLists
