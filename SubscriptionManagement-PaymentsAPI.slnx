@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="SubscriptionManagement-PaymentsAPI/src/Application/Application.csproj" />
+  <Project Path="SubscriptionManagement-PaymentsAPI/src/Domain/Domain.csproj" />
+  <Project Path="SubscriptionManagement-PaymentsAPI/src/Infrastructure/Infrastructure.csproj" />
+  <Project Path="SubscriptionManagement-PaymentsAPI/src/Web/Web.csproj" />
+  <Project Path="SubscriptionManagement-PaymentsAPI/tests/Application.FunctionalTests/Application.FunctionalTests.csproj" />
+  <Project Path="SubscriptionManagement-PaymentsAPI/tests/Application.UnitTests/Application.UnitTests.csproj" />
+  <Project Path="SubscriptionManagement-PaymentsAPI/tests/Domain.UnitTests/Domain.UnitTests.csproj" />
+  <Project Path="SubscriptionManagement-PaymentsAPI/tests/Infrastructure.IntegrationTests/Infrastructure.IntegrationTests.csproj" />
+</Solution>

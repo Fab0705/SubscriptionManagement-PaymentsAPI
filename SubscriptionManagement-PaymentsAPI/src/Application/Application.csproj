@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SubscriptionManagement_PaymentsAPI.Application</RootNamespace>
+    <AssemblyName>SubscriptionManagement_PaymentsAPI.Application</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.GuardClauses" />
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Mapster" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Billing\Commands\" />
+    <Folder Include="Features\Billing\DTOs\" />
+    <Folder Include="Features\Billing\Queries\" />
+    <Folder Include="Features\Subscriptions\Commands\CreateSubscription\" />
+    <Folder Include="Features\Subscriptions\Commands\CancelSubscription\" />
+    <Folder Include="Features\Subscriptions\Commands\ChangePlan\" />
+    <Folder Include="Features\Subscriptions\DTOs\" />
+    <Folder Include="Features\Subscriptions\Queries\GetSubscriptions\" />
+    <Folder Include="Features\Subscriptions\Queries\GetSubscriptionById\" />
+    <Folder Include="Features\Webhooks\Commands\" />
+    <Folder Include="Features\Webhooks\DTOs\" />
+  </ItemGroup>
+
+</Project>
