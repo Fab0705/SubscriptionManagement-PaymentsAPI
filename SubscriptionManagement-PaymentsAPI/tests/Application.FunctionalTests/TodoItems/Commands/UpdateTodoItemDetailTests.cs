@@ -5,7 +5,7 @@ using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.CreateTo
 using SubscriptionManagement_PaymentsAPI.Domain.Entities;
 using SubscriptionManagement_PaymentsAPI.Domain.Enums;
 
-using static Testing;
+using static SubscriptionManagement_PaymentsAPI.Application.FunctionalTests.Testing;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.FunctionalTests.TodoItems.Commands;
 

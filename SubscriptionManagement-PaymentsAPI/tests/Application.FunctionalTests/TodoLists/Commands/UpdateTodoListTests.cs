@@ -3,7 +3,7 @@ using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.CreateTo
 using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.UpdateTodoList;
 using SubscriptionManagement_PaymentsAPI.Domain.Entities;
 
-using static Testing;
+using static SubscriptionManagement_PaymentsAPI.Application.FunctionalTests.Testing;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.FunctionalTests.TodoLists.Commands;
 

@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using SubscriptionManagement_PaymentsAPI.Application.Common.Interfaces;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Data;
 
-using static Testing;
+using static SubscriptionManagement_PaymentsAPI.Application.FunctionalTests.Testing;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.FunctionalTests;
 

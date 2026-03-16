@@ -2,7 +2,7 @@
 using SubscriptionManagement_PaymentsAPI.Domain.Entities;
 using SubscriptionManagement_PaymentsAPI.Domain.ValueObjects;
 
-using static Testing;
+using static SubscriptionManagement_PaymentsAPI.Application.FunctionalTests.Testing;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.FunctionalTests.TodoLists.Queries;
 
