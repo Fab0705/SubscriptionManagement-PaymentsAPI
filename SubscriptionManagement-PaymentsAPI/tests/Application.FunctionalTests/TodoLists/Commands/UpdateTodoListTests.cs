@@ -12,7 +12,7 @@ public class UpdateTodoListTests : BaseTestFixture
     [Test]
     public async Task ShouldRequireValidTodoListId()
     {
-        var command = new UpdateTodoListCommand { Id = 99, Title = "New Title" };
+        var command = new UpdateTodoListCommand { Id = Guid.NewGuid(), Title = "New Title" };
         await Should.ThrowAsync<NotFoundException>(() => SendAsync(command));
     }
 
@@ -64,7 +64,7 @@ public class UpdateTodoListTests : BaseTestFixture
         list.ShouldNotBeNull();
         list!.Title.ShouldBe(command.Title);
         list.LastModifiedBy.ShouldNotBeNull();
-        list.LastModifiedBy.ShouldBe(userId);
+        list.LastModifiedBy.ShouldBe(userId.ToString());
         list.LastModified.ShouldBe(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
 }
