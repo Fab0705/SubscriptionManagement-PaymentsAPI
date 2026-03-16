@@ -38,7 +38,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 {
                     var mock = new Mock<IUser>();
                     mock.SetupGet(x => x.Roles).Returns(GetRoles());
-                    mock.SetupGet(x => x.Id).Returns(GetUserId());
+                    mock.SetupGet(x => x.Id).Returns(GetUserId().ToString());
                     return mock.Object;
                 });
             services
