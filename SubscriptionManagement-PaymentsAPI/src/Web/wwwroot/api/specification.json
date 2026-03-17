@@ -1216,8 +1216,8 @@
             "format": "guid"
           },
           "listId": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "guid"
           },
           "title": {
             "type": "string",
