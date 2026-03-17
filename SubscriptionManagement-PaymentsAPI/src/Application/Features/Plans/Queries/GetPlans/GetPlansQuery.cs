@@ -17,6 +17,7 @@ public class GetPlansQueryHandler : IRequestHandler<GetPlansQuery, List<PlanDto>
     {
         return await _context.Plans
             .AsNoTracking()
+            .OrderByDescending(p => p.Created)
             .ProjectToType<PlanDto>()
             .ToListAsync(cancellationToken);
     }

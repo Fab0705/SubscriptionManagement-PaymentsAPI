@@ -20,6 +20,7 @@ public class GetCustomersQueryHandler : IRequestHandler<GetCustomersQuery, List<
     {
         return await _context.Customers
             .AsNoTracking()
+            .OrderByDescending(c => c.Created)
             .ProjectToType<CustomerDto>()
             .ToListAsync(cancellationToken);
     }
