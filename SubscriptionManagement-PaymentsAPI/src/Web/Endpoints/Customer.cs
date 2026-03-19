@@ -13,7 +13,7 @@ public class Customer : EndpointGroupBase
     {
         groupBuilder.MapGet(GetCustomers).RequireAuthorization();
         groupBuilder.MapGet(GetCustomerById, "{id}").RequireAuthorization();
-        groupBuilder.MapPost(CreateCustomer).RequireAuthorization();
+        groupBuilder.MapPost(CreateCustomer);
     }
 
     public async Task<Ok<List<CustomerDto>>> GetCustomers(ISender sender)
