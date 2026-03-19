@@ -62,12 +62,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/api/Customer/{id}": {
@@ -1071,6 +1066,9 @@
         "additionalProperties": false,
         "properties": {
           "email": {
+            "type": "string"
+          },
+          "password": {
             "type": "string"
           },
           "stripeCustomerId": {
