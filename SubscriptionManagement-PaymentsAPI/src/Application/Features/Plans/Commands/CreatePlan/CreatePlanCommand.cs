@@ -1,8 +1,11 @@
 ﻿using SubscriptionManagement_PaymentsAPI.Application.Common.Interfaces;
+using SubscriptionManagement_PaymentsAPI.Application.Common.Security;
+using SubscriptionManagement_PaymentsAPI.Domain.Constants;
 using SubscriptionManagement_PaymentsAPI.Domain.Entities;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.Features.Plans.Commands.CreatePlan;
 
+[Authorize(Roles = Roles.Administrator)]
 public record CreatePlanCommand : IRequest<Guid>, IPlan
 {
     public required string Name { get; init; }

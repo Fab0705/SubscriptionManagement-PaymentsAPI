@@ -1,7 +1,10 @@
 ﻿using SubscriptionManagement_PaymentsAPI.Application.Common.Interfaces;
+using SubscriptionManagement_PaymentsAPI.Application.Common.Security;
+using SubscriptionManagement_PaymentsAPI.Domain.Constants;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.Features.Plans.Commands.UpdatePlan;
 
+[Authorize(Roles = Roles.Administrator)]
 public record UpdatePlanCommand : IRequest, IPlan
 {
     public Guid Id { get; init; }
