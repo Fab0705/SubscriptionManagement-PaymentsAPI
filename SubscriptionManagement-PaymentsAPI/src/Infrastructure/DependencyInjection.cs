@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 using SubscriptionManagement_PaymentsAPI.Application.Common.Interfaces;
 using SubscriptionManagement_PaymentsAPI.Domain.Constants;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Data;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Data.Interceptors;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Identity;
+using SubscriptionManagement_PaymentsAPI.Infrastructure.Payments.Stripe;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +22,11 @@ public static class DependencyInjection
 
         builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
+
+        builder.Services.AddScoped<IPaymentGatewayService, StripePaymentService>();
+
+        StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
         builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
@@ -45,7 +52,7 @@ public static class DependencyInjection
             .AddApiEndpoints();
 
         builder.Services.AddSingleton(TimeProvider.System);
-        builder.Services.AddTransient<IIdentityService, IdentityService>();
+        builder.Services.AddTransient<IIdentityService, SubscriptionManagement_PaymentsAPI.Infrastructure.Identity.IdentityService>();
 
         builder.Services.AddAuthorization(options =>
             {
