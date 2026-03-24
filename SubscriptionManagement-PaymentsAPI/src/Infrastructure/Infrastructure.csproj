@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Stripe.net" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="MultiTenancy\" />
-    <Folder Include="Payments\Stripe\" />
   </ItemGroup>
 
 </Project>
