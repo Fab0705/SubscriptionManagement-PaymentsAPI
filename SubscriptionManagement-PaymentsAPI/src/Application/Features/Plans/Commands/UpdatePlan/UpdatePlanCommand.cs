@@ -1,6 +1,7 @@
 ﻿using SubscriptionManagement_PaymentsAPI.Application.Common.Interfaces;
 using SubscriptionManagement_PaymentsAPI.Application.Common.Security;
 using SubscriptionManagement_PaymentsAPI.Domain.Constants;
+using SubscriptionManagement_PaymentsAPI.Domain.Enums;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.Features.Plans.Commands.UpdatePlan;
 
@@ -10,7 +11,7 @@ public record UpdatePlanCommand : IRequest, IPlan
     public Guid Id { get; init; }
     public required string Name { get; init; }
     public required string Description { get; init; }
-    public required string BillingInterval { get; init; }
+    public BillingInterval BillingInterval { get; init; }
     public required decimal Price { get; init; }
     public string? StripeProductId { get; init; }
     public string? StripePriceId { get; init; }

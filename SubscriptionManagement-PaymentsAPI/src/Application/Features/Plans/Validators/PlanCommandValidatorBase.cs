@@ -18,19 +18,18 @@ public abstract class PlanCommandValidatorBase<T> : AbstractValidator<T>
             .MaximumLength(1000);
 
         RuleFor(v => v.BillingInterval)
-            .NotEmpty()
-            .Must(BeAValidInterval).WithMessage("'{PropertyName}' must be 'weekly', 'monthly' or 'yearly'.");
+            .IsInEnum();
 
         RuleFor(v => v.Price)
             .GreaterThanOrEqualTo(0).WithMessage("'{PropertyName}' must be greater than or equal to 0.")
             .Must(HaveValidScale).WithMessage("'{PropertyName}' cannot have more than 2 decimal places.");
     }
 
-    private bool BeAValidInterval(string interval)
+    /*private bool BeAValidInterval(BillingInterval interval)
     {
         var validIntervals = new[] { "weekly", "monthly", "yearly" };
-        return validIntervals.Contains(interval.ToLower());
-    }
+        return validIntervals;
+    }*/
 
     private bool HaveValidScale(decimal price)
     {

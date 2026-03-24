@@ -2,6 +2,7 @@
 using SubscriptionManagement_PaymentsAPI.Application.Common.Security;
 using SubscriptionManagement_PaymentsAPI.Domain.Constants;
 using SubscriptionManagement_PaymentsAPI.Domain.Entities;
+using SubscriptionManagement_PaymentsAPI.Domain.Enums;
 
 namespace SubscriptionManagement_PaymentsAPI.Application.Features.Plans.Commands.CreatePlan;
 
@@ -10,7 +11,7 @@ public record CreatePlanCommand : IRequest<Guid>, IPlan
 {
     public required string Name { get; init; }
     public required string Description { get; init; }
-    public required string BillingInterval { get; init; }
+    public BillingInterval BillingInterval { get; init; }
     public required decimal Price { get; init; }
     public string? StripeProductId { get; init; }
     public string? StripePriceId { get; init; }

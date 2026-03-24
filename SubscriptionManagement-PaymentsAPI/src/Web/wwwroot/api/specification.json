@@ -1122,7 +1122,7 @@
             "type": "string"
           },
           "billingInterval": {
-            "type": "string"
+            "$ref": "#/components/schemas/BillingInterval"
           },
           "price": {
             "type": "number",
@@ -1141,6 +1141,20 @@
           }
         }
       },
+      "BillingInterval": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Weekly",
+          "Monthly",
+          "Yearly"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
       "UpdatePlanCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -1156,7 +1170,7 @@
             "type": "string"
           },
           "billingInterval": {
-            "type": "string"
+            "$ref": "#/components/schemas/BillingInterval"
           },
           "price": {
             "type": "number",
