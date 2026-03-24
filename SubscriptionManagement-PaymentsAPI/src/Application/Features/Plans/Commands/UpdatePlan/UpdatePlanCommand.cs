@@ -21,9 +21,11 @@ public record UpdatePlanCommand : IRequest, IPlan
 public class UpdatePlanCommandHandler : IRequestHandler<UpdatePlanCommand>
 {
     private readonly IApplicationDbContext _context;
-    public UpdatePlanCommandHandler(IApplicationDbContext context)
+    private readonly IPaymentGatewayService _paymentService;
+    public UpdatePlanCommandHandler(IApplicationDbContext context, IPaymentGatewayService paymentService)
     {
         _context = context;
+        _paymentService = paymentService;
     }
     public async Task Handle(UpdatePlanCommand request, CancellationToken cancellationToken)
     {
@@ -31,12 +33,27 @@ public class UpdatePlanCommandHandler : IRequestHandler<UpdatePlanCommand>
         
         Guard.Against.NotFound(request.Id, entity);
 
+        string? updatedStripePriceId = entity.StripePriceId;
+
+        if ((!string.IsNullOrEmpty(entity.StripeProductId) && !string.IsNullOrEmpty(entity.StripePriceId)))
+        {
+            updatedStripePriceId = await _paymentService.UpdatePlanAsync(
+                entity.StripeProductId,
+                entity.StripePriceId,
+                request.Name,
+                request.Description,
+                request.Price,
+                request.BillingInterval,
+                cancellationToken
+            );
+        }
+
         entity.Name = request.Name;
         entity.Description = request.Description;
         entity.BillingInterval = request.BillingInterval;
         entity.Price = request.Price;
         entity.StripeProductId = request.StripeProductId;
-        entity.StripePriceId = request.StripePriceId;
+        entity.StripePriceId = updatedStripePriceId;
         entity.IsActive = request.IsActive;
 
         await _context.SaveChangesAsync(cancellationToken);

@@ -11,15 +11,24 @@ public record DeletePlanCommand(Guid id) : IRequest;
 public class DeletePlanCommandHandler : IRequestHandler<DeletePlanCommand>
 {
     private readonly IApplicationDbContext _context;
-    public DeletePlanCommandHandler(IApplicationDbContext context)
+    private readonly IPaymentGatewayService _paymentService;
+    public DeletePlanCommandHandler(IApplicationDbContext context, IPaymentGatewayService paymentService)
     {
         _context = context;
+        _paymentService = paymentService;
     }
     public async Task Handle(DeletePlanCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Plans.FindAsync(new object[] { request.id }, cancellationToken);
         Guard.Against.NotFound(request.id, entity);
-        _context.Plans.Remove(entity);
+
+        if (!string.IsNullOrEmpty(entity.StripeProductId) && !string.IsNullOrEmpty(entity.StripePriceId))
+        {
+            await _paymentService.ArchivePlanAsync(entity.StripeProductId, entity.StripePriceId, cancellationToken);
+        }
+
+        entity.IsActive = false;
+
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

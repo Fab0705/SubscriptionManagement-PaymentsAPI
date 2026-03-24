@@ -21,20 +21,30 @@ public record CreatePlanCommand : IRequest<Guid>, IPlan
 public class CreatePlanCommandHandler : IRequestHandler<CreatePlanCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
-    public CreatePlanCommandHandler(IApplicationDbContext context)
+    private readonly IPaymentGatewayService _paymentService;
+    public CreatePlanCommandHandler(IApplicationDbContext context, IPaymentGatewayService paymentService)
     {
         _context = context;
+        _paymentService = paymentService;
     }
     public async Task<Guid> Handle(CreatePlanCommand request, CancellationToken cancellationToken)
     {
+        var (stripeProductId, stripePriceId) = await _paymentService.CreatePlanAsync(
+            request.Name,
+            request.Description,
+            request.Price,
+            request.BillingInterval,
+            cancellationToken
+            );
+
         var entity = new Plan
         {
             Name = request.Name,
             Description = request.Description,
             BillingInterval = request.BillingInterval,
             Price = request.Price,
-            StripeProductId = request.StripeProductId,
-            StripePriceId = request.StripePriceId,
+            StripeProductId = stripeProductId,
+            StripePriceId = stripePriceId,
             IsActive = request.IsActive
         };
         _context.Plans.Add(entity);
