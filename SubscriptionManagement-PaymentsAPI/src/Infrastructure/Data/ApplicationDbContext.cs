@@ -60,6 +60,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         builder.Entity<Invoice>()
             .HasIndex(x => x.StripeInvoiceId);
 
+        builder.Entity<Subscription>()
+            .Property(s => s.Status)
+            .HasConversion<string>();
+
 
         foreach (var entityType in builder.Model.GetEntityTypes().Where(e => typeof(IMustHaveTenant).IsAssignableFrom(e.ClrType)))
         {
