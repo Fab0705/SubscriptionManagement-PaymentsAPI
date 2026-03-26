@@ -25,14 +25,9 @@
     <Folder Include="Features\Billing\Commands\" />
     <Folder Include="Features\Billing\DTOs\" />
     <Folder Include="Features\Billing\Queries\" />
-    <Folder Include="Features\Subscriptions\Commands\CreateSubscription\" />
-    <Folder Include="Features\Subscriptions\Commands\CancelSubscription\" />
-    <Folder Include="Features\Subscriptions\Commands\ChangePlan\" />
     <Folder Include="Features\Subscriptions\DTOs\" />
     <Folder Include="Features\Subscriptions\Queries\GetSubscriptions\" />
     <Folder Include="Features\Subscriptions\Queries\GetSubscriptionById\" />
-    <Folder Include="Features\Webhooks\Commands\" />
-    <Folder Include="Features\Webhooks\DTOs\" />
   </ItemGroup>
 
 </Project>
