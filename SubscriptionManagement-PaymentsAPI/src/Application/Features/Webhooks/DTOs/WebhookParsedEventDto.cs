@@ -1,4 +1,6 @@
-﻿namespace SubscriptionManagement_PaymentsAPI.Application.Features.Webhooks.DTOs;
+﻿using SubscriptionManagement_PaymentsAPI.Domain.Enums;
+
+namespace SubscriptionManagement_PaymentsAPI.Application.Features.Webhooks.DTOs;
 
 public class WebhookParsedEventDto
 {
@@ -10,4 +12,11 @@ public class WebhookParsedEventDto
     public DateTime? CurrentPeriodStart { get; set; }
     public DateTime? CurrentPeriodEnd { get; set; }
     public bool CancelAtPeriodEnd { get; set; }
+
+
+    //For Invoice
+    public string? StripeInvoiceId { get; set; }
+    public long? AmountPaid { get; set; }
+    public string? Currency { get; set; }
+    public InvoiceStatus InvoiceStatus { get; set; }
 }

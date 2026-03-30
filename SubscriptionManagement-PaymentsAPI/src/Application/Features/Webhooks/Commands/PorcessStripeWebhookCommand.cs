@@ -55,6 +55,29 @@ public class PorcessStripeWebhookCommandHandler : IRequestHandler<PorcessStripeW
                     }
                 }
                 break;
+            case "invoice.paid":
+                var suscripcionLocal = await _context.Subscriptions
+        .FirstOrDefaultAsync(s => s.StripeSubscriptionId == stripeEvent.StripeSubscriptionId, cancellationToken);
+
+                if (suscripcionLocal != null && stripeEvent.AmountPaid.HasValue)
+                {
+                    // Parseamos el string que viene de Stripe a tu Enum (ignorando mayúsculas/minúsculas)
+                    var statusEnum = Enum.TryParse<InvoiceStatus>(stripeEvent.InvoiceStatus.ToString(), true, out var parsedStatus)
+                        ? parsedStatus
+                        : InvoiceStatus.Paid; // Por defecto lo ponemos en Paid ya que el evento es invoice.paid
+
+                    var newInvoice = new Invoice
+                    {
+                        SubscriptionId = suscripcionLocal.Id,
+                        StripeInvoiceId = stripeEvent.StripeInvoiceId,
+                        Amount = stripeEvent.AmountPaid.Value / 100m,
+                        Currency = stripeEvent.Currency ?? "usd",
+                        Status = statusEnum.ToString(), // <-- Usamos el Enum aquí
+                        PaidAt = DateTime.UtcNow
+                    };
+                    _context.Invoices.Add(newInvoice);
+                }
+                break;
         }
 
         await _context.SaveChangesAsync(cancellationToken);
