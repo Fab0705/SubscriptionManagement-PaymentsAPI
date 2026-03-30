@@ -64,6 +64,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .Property(s => s.Status)
             .HasConversion<string>();
 
+        builder.Entity<Invoice>()
+            .Property(i => i.Status)
+            .HasConversion<string>();
+
 
         foreach (var entityType in builder.Model.GetEntityTypes().Where(e => typeof(IMustHaveTenant).IsAssignableFrom(e.ClrType)))
         {
