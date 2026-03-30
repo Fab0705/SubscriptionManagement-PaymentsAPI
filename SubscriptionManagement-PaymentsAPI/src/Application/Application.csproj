@@ -22,9 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Billing\Commands\" />
-    <Folder Include="Features\Billing\DTOs\" />
-    <Folder Include="Features\Billing\Queries\" />
     <Folder Include="Features\Subscriptions\DTOs\" />
     <Folder Include="Features\Subscriptions\Queries\GetSubscriptions\" />
     <Folder Include="Features\Subscriptions\Queries\GetSubscriptionById\" />
