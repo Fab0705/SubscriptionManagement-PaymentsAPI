@@ -11,4 +11,5 @@ public interface IPaymentGatewayService
     Task CancelSubscriptionAsync(string stripeSubscriptionId, CancellationToken cancellationToken);
     Task ChangeSubscriptionAsync(string stripeSubscriptionId, string newStripePriceId, CancellationToken cancellationToken);
     Task<WebhookParsedEventDto> ParseWebhookEventAsync(string jsonPayload, string stripeSignature, string webhookSecret);
+    Task<string> GenerateCustomerPortalAsync(string stripeCustomerId, string returnUrl, CancellationToken cancellationToken);
 }

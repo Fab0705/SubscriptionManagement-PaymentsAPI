@@ -4,7 +4,7 @@ using Stripe;
 using Stripe.Checkout;
 using SubscriptionManagement_PaymentsAPI.Application.Features.Webhooks.DTOs;
 
-namespace SubscriptionManagement_PaymentsAPI.Infrastructure.Payments.Stripe;
+namespace SubscriptionManagement_PaymentsAPI.Infrastructure.Payments.StripePayment;
 
 public class StripePaymentService : IPaymentGatewayService
 {
@@ -124,6 +124,20 @@ public class StripePaymentService : IPaymentGatewayService
         return (product.Id, stripePrice.Id);
     }
 
+    public async Task<string> GenerateCustomerPortalAsync(string stripeCustomerId, string returnUrl, CancellationToken cancellationToken)
+    {
+        var options = new Stripe.BillingPortal.SessionCreateOptions
+        {
+            Customer = stripeCustomerId,
+            ReturnUrl = returnUrl,
+        };
+
+        var service = new Stripe.BillingPortal.SessionService();
+        var session = await service.CreateAsync(options, cancellationToken: cancellationToken);
+
+        return session.Url;
+    }
+
     public async Task<WebhookParsedEventDto> ParseWebhookEventAsync(string jsonPayload, string stripeSignature, string webhookSecret)
     {
         var stripeEvent = EventUtility.ConstructEvent(jsonPayload, stripeSignature, webhookSecret);
@@ -131,10 +145,10 @@ public class StripePaymentService : IPaymentGatewayService
         var parsedDto = new WebhookParsedEventDto { EventType = stripeEvent.Type };
 
         // 1. FORZAMOS la clase estática Events de la librería
-        if (stripeEvent.Type == global::Stripe.Events.CheckoutSessionCompleted)
+        if (stripeEvent.Type == EventTypes.CheckoutSessionCompleted)
         {
             // 2. FORZAMOS la clase Session de la librería
-            var session = stripeEvent.Data.Object as global::Stripe.Checkout.Session;
+            var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
 
             if (session != null)
             {
@@ -149,18 +163,18 @@ public class StripePaymentService : IPaymentGatewayService
                 }
             }
         }
-        else if (stripeEvent.Type == global::Stripe.Events.CustomerSubscriptionUpdated || stripeEvent.Type == global::Stripe.Events.CustomerSubscriptionDeleted)
+        else if (stripeEvent.Type == EventTypes.CustomerSubscriptionUpdated || stripeEvent.Type == EventTypes.CustomerSubscriptionDeleted)
         {
             // 3. FORZAMOS la clase Subscription de la librería (para no chocar con tu entidad de Dominio)
-            var subscription = stripeEvent.Data.Object as global::Stripe.Subscription;
+            var subscription = stripeEvent.Data.Object as Stripe.Subscription;
 
             if (subscription != null)
             {
                 parsedDto.StripeSubscriptionId = subscription.Id;
                 parsedDto.Status = subscription.Status;
                 parsedDto.CancelAtPeriodEnd = subscription.CancelAtPeriodEnd;
-                parsedDto.CurrentPeriodStart = subscription.CurrentPeriodStart;
-                parsedDto.CurrentPeriodEnd = subscription.CurrentPeriodEnd;
+                //parsedDto.CurrentPeriodStart = subscription.CurrentPeriodStart;
+                //parsedDto.CurrentPeriodEnd = subscription.CurrentPeriodEnd;
             }
         }
 
