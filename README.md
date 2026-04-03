@@ -188,12 +188,12 @@ tests/
 
 # 🚀 Roadmap
 
-- [] Full multi-tenancy implementation
-- [] Customer portal (self-service)
-- [] Advanced billing
-- [] Idempotent webhooks
-- [] Dockerization
-- [] CI/CD with Azure
+- [ ] Full multi-tenancy implementation
+- [ ] Customer portal (self-service)
+- [ ] Advanced billing
+- [ ] Idempotent webhooks
+- [ ] Dockerization
+- [ ] CI/CD with Azure
 
 ---
 
