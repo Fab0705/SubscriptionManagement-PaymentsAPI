@@ -13,8 +13,6 @@ public record UpdatePlanCommand : IRequest, IPlan
     public required string Description { get; init; }
     public BillingInterval BillingInterval { get; init; }
     public required decimal Price { get; init; }
-    public string? StripeProductId { get; init; }
-    public string? StripePriceId { get; init; }
     public bool IsActive { get; init; }
 }
 
@@ -32,7 +30,7 @@ public class UpdatePlanCommandHandler : IRequestHandler<UpdatePlanCommand>
         var entity = await _context.Plans.FindAsync(new object[] { request.Id }, cancellationToken);
         
         Guard.Against.NotFound(request.Id, entity);
-
+            
         string? updatedStripePriceId = entity.StripePriceId;
 
         if ((!string.IsNullOrEmpty(entity.StripeProductId) && !string.IsNullOrEmpty(entity.StripePriceId)))
@@ -52,7 +50,6 @@ public class UpdatePlanCommandHandler : IRequestHandler<UpdatePlanCommand>
         entity.Description = request.Description;
         entity.BillingInterval = request.BillingInterval;
         entity.Price = request.Price;
-        entity.StripeProductId = request.StripeProductId;
         entity.StripePriceId = updatedStripePriceId;
         entity.IsActive = request.IsActive;
 

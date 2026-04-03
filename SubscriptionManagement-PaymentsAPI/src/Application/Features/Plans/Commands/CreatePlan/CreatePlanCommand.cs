@@ -13,8 +13,6 @@ public record CreatePlanCommand : IRequest<Guid>, IPlan
     public required string Description { get; init; }
     public BillingInterval BillingInterval { get; init; }
     public required decimal Price { get; init; }
-    public string? StripeProductId { get; init; }
-    public string? StripePriceId { get; init; }
     public bool IsActive { get; init; }
 }
 
