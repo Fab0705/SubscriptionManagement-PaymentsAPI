@@ -1,5 +1,7 @@
 # SubscriptionManagement-PaymentsAPI
+
 Robust RESTful API for managing subscriptions, billing, and aircraft control in SaaS environments and custom solutions. Built with .NET 10 following Clean Architecture principles, with native Stripe integration.
+
 It includes an advanced **Just-In-Time** customer creation flow using webhooks, ensuring consistency between Stripe and the database.
 ---
 # Tech Stack
