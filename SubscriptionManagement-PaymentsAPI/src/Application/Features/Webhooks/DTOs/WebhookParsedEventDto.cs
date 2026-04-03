@@ -13,6 +13,8 @@ public class WebhookParsedEventDto
     public DateTime? CurrentPeriodEnd { get; set; }
     public bool CancelAtPeriodEnd { get; set; }
 
+    public string ? StripeCustomerId { get; set; }
+
 
     //For Invoice
     public string? StripeInvoiceId { get; set; }

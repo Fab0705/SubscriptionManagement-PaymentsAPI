@@ -29,14 +29,21 @@ public class PorcessStripeWebhookCommandHandler : IRequestHandler<PorcessStripeW
             case "checkout.session.completed":
                 if(stripeEvent.CustomerId.HasValue && stripeEvent.PlanId.HasValue)
                 {
-                    var newSubscription = new Subscription
+                    var customer = await _context.Customers.FindAsync(stripeEvent.CustomerId.Value, cancellationToken);
+
+                    if (customer != null)
                     {
-                        CustomerId = stripeEvent.CustomerId.Value,
-                        PlanId = stripeEvent.PlanId.Value,
-                        Status = SubscriptionStatus.Active,
-                        StripeSubscriptionId = stripeEvent.StripeSubscriptionId,
-                    };
-                    _context.Subscriptions.Add(newSubscription);
+                        customer.StripeCustomerId = stripeEvent.StripeCustomerId;
+
+                        var newSubscription = new Subscription
+                        {
+                            CustomerId = stripeEvent.CustomerId.Value,
+                            PlanId = stripeEvent.PlanId.Value,
+                            Status = SubscriptionStatus.Active,
+                            StripeSubscriptionId = stripeEvent.StripeSubscriptionId,
+                        };
+                        _context.Subscriptions.Add(newSubscription);
+                    }
                 }
                 break;
             case "customer.subscription.updated":
@@ -76,6 +83,11 @@ public class PorcessStripeWebhookCommandHandler : IRequestHandler<PorcessStripeW
                         PaidAt = DateTime.UtcNow
                     };
                     _context.Invoices.Add(newInvoice);
+                    if (stripeEvent.CurrentPeriodStart.HasValue && stripeEvent.CurrentPeriodEnd.HasValue)
+                    {
+                        suscripcionLocal.CurrentPeriodStart = stripeEvent.CurrentPeriodStart;
+                        suscripcionLocal.CurrentPeriodEnd = stripeEvent.CurrentPeriodEnd;
+                    }
                 }
                 break;
         }
