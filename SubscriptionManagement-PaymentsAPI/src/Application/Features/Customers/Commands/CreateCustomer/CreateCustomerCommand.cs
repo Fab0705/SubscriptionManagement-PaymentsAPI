@@ -9,17 +9,18 @@ public record CreateCustomerCommand : IRequest<Guid>
 {
     public string Email { get; init; } = null!;
     public string Password { get; init; } = null!;
-    public string? StripeCustomerId { get; init; }
 }
 
 public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly IIdentityService _identityService;
-    public CreateCustomerCommandHandler(IApplicationDbContext context, IIdentityService identityService)
+    private readonly IPaymentGatewayService _paymentGatewayService;
+    public CreateCustomerCommandHandler(IApplicationDbContext context, IIdentityService identityService, IPaymentGatewayService paymentGatewayService)
     {
         _context = context;
         _identityService = identityService;
+        _paymentGatewayService = paymentGatewayService;
     }
     public async Task<Guid> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
@@ -31,11 +32,11 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             throw new ValidationException(failures);
         }
 
-            var entity = new Customer
+        var entity = new Customer
         {
             Email = request.Email,
-                ApplicationUserId = Guid.Parse(userId.ToString()),
-                StripeCustomerId = request.StripeCustomerId
+            ApplicationUserId = Guid.Parse(userId.ToString()),
+            StripeCustomerId = null
         };
         _context.Customers.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
