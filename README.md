@@ -87,3 +87,125 @@ Before running the project, make sure you have the following installed:
 ```bash
 git clone https://github.com/tu-usuario/SubscriptionManagement-PaymentsAPI.git
 cd SubscriptionManagement-PaymentsAPI
+```
+
+## 2. Configure environment variables
+
+For this project, User Secrets were used exclusively for Stripe configuration, specifically in the **Web** layer.
+
+```json
+{
+  "Stripe": {
+    "SecretKey": "your_stripe_secretKey",
+    "WebhookSecret": "your_stripeCLI_webhook"
+  }
+}
+```
+
+## 3. Run Migrations
+
+```bash
+dotnet ef database update
+```
+
+## 4. Run Aplication (in Web Layer) 
+
+```bash
+dotnet run
+```
+
+The API will be available at:
+
+```plaintext
+https://localhost:5001
+```
+
+---
+
+# Stripe Webhooks (Local Testing)
+
+This system relies on webhooks to synchronize payment events. But not before performing a `stripe login` for it to work correctly
+
+## Start Stripe CLI
+
+```bash
+stripe listen --forward-to https://localhost:5001/api/webhooks/stripe
+```
+
+## Supported events
+
+- `checkout.session.completed`
+- `customer.subscription.created`
+- `invoice.paid`
+
+## Test flow
+
+1. Create a checkout session from the API
+2. Complete payment in Stripe
+3. Stripe sends a webhook
+4. The API:
+   - Create Customer (if it doesn't exist)
+   - Create Subscription
+   - Register Invoice
+
+---
+
+# Multi-Tenancy
+
+The system architecture already includes a foundation for multi-tenant support.
+- Prepared identity structure (`Tenant`, relationships)
+- Middleware inicial para resolución de tenant
+- Claims in JWT (`tenantId`)
+
+---
+
+# Error Handling
+
+Global middleware catches exceptions:
+
+- `401 Unauthorized` -> Invalid credentials
+- `500 Internal Server Error` -> Uncontrolled error
+
+---
+
+# Project Structure
+
+```plaintext
+src/
+ ├── Domain/
+ ├── Application/
+ ├── Infrastructure/
+ └── Web/
+
+tests/
+ ├── Domain.UnitTests/
+ ├── Application.UnitTests/
+ ├── Application.FunctionalTests/
+ └── Infrastructure.IntegrationTests/
+```
+
+---
+
+# 🚀 Roadmap
+
+- [] Full multi-tenancy implementation
+- [] Customer portal (self-service)
+- [] Advanced billing
+- [] Idempotent webhooks
+- [] Dockerization
+- [] CI/CD with Azure
+
+---
+
+# 🤝 Feedback and Contributions
+
+The project is constantly evolving.
+Any feedback, suggestions, or improvements are welcome.
+
+You can open an issue or submit a pull request.
+
+---
+
+# Author
+
+Developed as part of a modular system geared towards SaaS and scalable enterprise solutions in .NET and Azure.
