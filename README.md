@@ -1,8 +1,8 @@
 # SubscriptionManagement-PaymentsAPI
 
-Robust RESTful API for managing subscriptions, billing, and aircraft control in SaaS environments and custom solutions. Built with .NET 10 following Clean Architecture principles, with native Stripe integration.
+Robust RESTful API for managing subscriptions, billing, and plan control in SaaS environments and custom solutions. Built with .NET 10 following Clean Architecture principles, with native Stripe integration and ready support for multi-tenant architectures.
 
-It includes an advanced **Just-In-Time** customer creation flow using webhooks, ensuring consistency between Stripe and the database.
+The project is actively evolving, incorporating continuous improvements and new capabilities geared towards real-world production scenarios.
 
 ---
 
@@ -36,7 +36,7 @@ The project follows a strict implementation of **Clean Architecture**, ensuring 
   
 ### Web / API
 - REST Controllers
-- Middleware (Error handling, Multi-tenant)
+- Middlewares (Error handling, basis for multi-tenant)
 - DI Configuration
 - Authentication Endpoints and Webhooks
   
@@ -44,6 +44,7 @@ The project follows a strict implementation of **Clean Architecture**, ensuring 
 
 # Main features
 
+- Decoupled architecture ready to evolve into microservices
 - Authentication with JWT
 - Full integration with Stripe:
   - Creating checkout sessions
@@ -52,6 +53,7 @@ The project follows a strict implementation of **Clean Architecture**, ensuring 
 - Just-in-Time (JIT) automatic customer creation
 - Centralized error handling
 - Ready for SaaS or custom solutions
+- ⚙️ Structural base for multi-tenant support (in active development)
   
 ---
 
@@ -75,3 +77,13 @@ Before running the project, make sure you have the following installed:
 - .NET 10 SDK
 - PostgreSQL
 - Stripe CLI
+
+---
+
+# ⚙️ Local Settings
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/tu-usuario/SubscriptionManagement-PaymentsAPI.git
+cd SubscriptionManagement-PaymentsAPI
