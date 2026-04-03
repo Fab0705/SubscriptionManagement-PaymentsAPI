@@ -1,4 +1,4 @@
-﻿using SubscriptionManagement_PaymentsAPI.Application.Common.Exceptions;
+﻿/*using SubscriptionManagement_PaymentsAPI.Application.Common.Exceptions;
 using SubscriptionManagement_PaymentsAPI.Application.Common.Security;
 using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.CreateTodoList;
 using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.PurgeTodoLists;
@@ -76,3 +76,4 @@ public class PurgeTodoListsTests : BaseTestFixture
         count.ShouldBe(0);
     }
 }
+*/

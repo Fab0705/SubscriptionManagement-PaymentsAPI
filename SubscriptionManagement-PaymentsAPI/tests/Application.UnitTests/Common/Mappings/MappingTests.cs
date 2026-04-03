@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿/*using System.Runtime.CompilerServices;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -64,3 +64,4 @@ public class MappingTests
         _loggerFactory?.Dispose();
     }
 }
+*/

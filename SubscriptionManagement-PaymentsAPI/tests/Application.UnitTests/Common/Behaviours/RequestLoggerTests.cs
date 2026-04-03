@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿/*using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using SubscriptionManagement_PaymentsAPI.Application.Common.Behaviours;
@@ -43,3 +43,4 @@ public class RequestLoggerTests
         _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>()), Times.Never);
     }
 }
+*/

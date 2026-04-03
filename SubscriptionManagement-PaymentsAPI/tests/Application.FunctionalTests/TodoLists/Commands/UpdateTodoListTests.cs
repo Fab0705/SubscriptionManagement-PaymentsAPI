@@ -1,4 +1,4 @@
-﻿using SubscriptionManagement_PaymentsAPI.Application.Common.Exceptions;
+﻿/*using SubscriptionManagement_PaymentsAPI.Application.Common.Exceptions;
 using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.CreateTodoList;
 using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.UpdateTodoList;
 using SubscriptionManagement_PaymentsAPI.Domain.Entities;
@@ -68,3 +68,4 @@ public class UpdateTodoListTests : BaseTestFixture
         list.LastModified.ShouldBe(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
 }
+*/

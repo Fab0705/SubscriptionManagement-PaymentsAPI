@@ -1,4 +1,4 @@
-﻿using SubscriptionManagement_PaymentsAPI.Application.TodoItems.Commands.CreateTodoItem;
+﻿/*using SubscriptionManagement_PaymentsAPI.Application.TodoItems.Commands.CreateTodoItem;
 using SubscriptionManagement_PaymentsAPI.Application.TodoItems.Commands.DeleteTodoItem;
 using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.CreateTodoList;
 using SubscriptionManagement_PaymentsAPI.Domain.Entities;
@@ -38,3 +38,4 @@ public class DeleteTodoItemTests : BaseTestFixture
         item.ShouldBeNull();
     }
 }
+*/

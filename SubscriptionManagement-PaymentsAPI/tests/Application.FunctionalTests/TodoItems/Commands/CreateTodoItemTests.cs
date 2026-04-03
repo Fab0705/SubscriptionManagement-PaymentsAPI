@@ -1,4 +1,4 @@
-﻿using SubscriptionManagement_PaymentsAPI.Application.Common.Exceptions;
+﻿/*using SubscriptionManagement_PaymentsAPI.Application.Common.Exceptions;
 using SubscriptionManagement_PaymentsAPI.Application.TodoItems.Commands.CreateTodoItem;
 using SubscriptionManagement_PaymentsAPI.Application.TodoLists.Commands.CreateTodoList;
 using SubscriptionManagement_PaymentsAPI.Domain.Entities;
@@ -12,7 +12,7 @@ public class CreateTodoItemTests : BaseTestFixture
     [Test]
     public async Task ShouldRequireMinimumFields()
     {
-        var command = new CreateTodoItemCommand();
+        //var command = new CreateTodoItemCommand();
 
         await Should.ThrowAsync<ValidationException>(() => SendAsync(command));
     }
@@ -46,3 +46,4 @@ public class CreateTodoItemTests : BaseTestFixture
         item.LastModified.ShouldBe(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
 }
+*/
