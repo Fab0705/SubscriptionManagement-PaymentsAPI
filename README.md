@@ -108,10 +108,10 @@ For this project, User Secrets were used exclusively for Stripe configuration, s
 dotnet ef database update
 ```
 
-## 4. Run Aplication (in Web Layer) 
+## 4. Run Application (in Web Layer) 
 
 ```bash
-dotnet run
+dotnet run --project src/Web/Web.csproj
 ```
 
 The API will be available at:
