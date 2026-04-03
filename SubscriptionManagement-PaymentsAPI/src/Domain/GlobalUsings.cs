@@ -1,6 +1,6 @@
 ﻿global using SubscriptionManagement_PaymentsAPI.Domain.Common;
 global using SubscriptionManagement_PaymentsAPI.Domain.Entities;
 global using SubscriptionManagement_PaymentsAPI.Domain.Enums;
-global using SubscriptionManagement_PaymentsAPI.Domain.Events;
+//global using SubscriptionManagement_PaymentsAPI.Domain.Events;
 global using SubscriptionManagement_PaymentsAPI.Domain.Exceptions;
 global using SubscriptionManagement_PaymentsAPI.Domain.ValueObjects;

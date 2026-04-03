@@ -21,10 +21,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Subscriptions\DTOs\" />
-    <Folder Include="Features\Subscriptions\Queries\GetSubscriptions\" />
-    <Folder Include="Features\Subscriptions\Queries\GetSubscriptionById\" />
-  </ItemGroup>
-
 </Project>
