@@ -9,7 +9,7 @@ using SubscriptionManagement_PaymentsAPI.Domain.Constants;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Data;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Data.Interceptors;
 using SubscriptionManagement_PaymentsAPI.Infrastructure.Identity;
-using SubscriptionManagement_PaymentsAPI.Infrastructure.Payments.Stripe;
+using SubscriptionManagement_PaymentsAPI.Infrastructure.Payments.StripePayment;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

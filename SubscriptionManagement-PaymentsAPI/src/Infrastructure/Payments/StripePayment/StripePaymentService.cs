@@ -53,13 +53,15 @@ public class StripePaymentService : IPaymentGatewayService
                     Id = subscriptionItemId,
                     Price = newStripePriceId
                 }
-            }
+            },
+
+            ProrationBehavior = "always_invoice",
         };
 
         await service.UpdateAsync(stripeSubscriptionId, options, cancellationToken: cancellationToken);
     }
 
-    public async Task<string> CreateCheckoutSessionAsync(string stripePriceId, string customerEmail, string successUrl, string cancelUrl, CancellationToken cancellationToken)
+    public async Task<string> CreateCheckoutSessionAsync(string stripePriceId, string customerEmail, Guid customerId, Guid planId, string successUrl, string cancelUrl, CancellationToken cancellationToken)
     {
         var options = new SessionCreateOptions
         {
@@ -79,12 +81,48 @@ public class StripePaymentService : IPaymentGatewayService
             Mode = "subscription",
             SuccessUrl = successUrl,
             CancelUrl = cancelUrl,
+
+            BillingAddressCollection = "auto",
+
+            CustomerUpdate = new SessionCustomerUpdateOptions
+            {
+                Name = "auto",
+                Address = "auto",
+            },
+
+            Metadata = new Dictionary<string, string>
+            {
+                { "CustomerId", customerId.ToString() },
+                { "PlanId", planId.ToString() }
+            },
+
+            SubscriptionData = new SessionSubscriptionDataOptions
+            {
+                Metadata = new Dictionary<string, string>
+                {
+                    { "CustomerId", customerId.ToString() },
+                    { "PlanId", planId.ToString() }
+                }
+            }
         };
 
         var service = new SessionService();
         Session session = await service.CreateAsync(options, cancellationToken: cancellationToken);
 
         return session.Url;
+    }
+
+    public async Task<string> CreateCustomerAsync(string email, CancellationToken cancellationToken)
+    {
+        var options = new CustomerCreateOptions
+        {
+            Email = email,
+        };
+
+        var service = new CustomerService();
+        var stripeCustomer = await service.CreateAsync(options, cancellationToken: cancellationToken);
+
+        return stripeCustomer.Id;
     }
 
     public async Task<(string ProductId, string PriceId)> CreatePlanAsync(string name, string description, decimal price, BillingInterval interval, CancellationToken cancellationToken)
@@ -144,19 +182,19 @@ public class StripePaymentService : IPaymentGatewayService
 
         var parsedDto = new WebhookParsedEventDto { EventType = stripeEvent.Type };
 
-        // 1. FORZAMOS la clase estática Events de la librería
         if (stripeEvent.Type == EventTypes.CheckoutSessionCompleted)
         {
-            // 2. FORZAMOS la clase Session de la librería
             var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
 
             if (session != null)
             {
                 parsedDto.StripeSubscriptionId = session.SubscriptionId;
 
+                parsedDto.StripeCustomerId = session.CustomerId;
+
                 if (session.Metadata != null)
                 {
-                    if (session.Metadata.TryGetValue("AppUserId", out var userIdStr) && Guid.TryParse(userIdStr, out var userId))
+                    if (session.Metadata.TryGetValue("CustomerId", out var userIdStr) && Guid.TryParse(userIdStr, out var userId))
                         parsedDto.CustomerId = userId;
                     if (session.Metadata.TryGetValue("PlanId", out var planIdStr) && Guid.TryParse(planIdStr, out var planId))
                         parsedDto.PlanId = planId;
@@ -165,7 +203,6 @@ public class StripePaymentService : IPaymentGatewayService
         }
         else if (stripeEvent.Type == EventTypes.CustomerSubscriptionUpdated || stripeEvent.Type == EventTypes.CustomerSubscriptionDeleted)
         {
-            // 3. FORZAMOS la clase Subscription de la librería (para no chocar con tu entidad de Dominio)
             var subscription = stripeEvent.Data.Object as Stripe.Subscription;
 
             if (subscription != null)
@@ -175,6 +212,37 @@ public class StripePaymentService : IPaymentGatewayService
                 parsedDto.CancelAtPeriodEnd = subscription.CancelAtPeriodEnd;
                 //parsedDto.CurrentPeriodStart = subscription.CurrentPeriodStart;
                 //parsedDto.CurrentPeriodEnd = subscription.CurrentPeriodEnd;
+            }
+        }
+        else if (stripeEvent.Type == EventTypes.InvoicePaid)
+        {
+            var invoice = stripeEvent.Data.Object as Stripe.Invoice;
+            if (invoice != null)
+            {
+                parsedDto.StripeInvoiceId = invoice.Id;
+                parsedDto.AmountPaid = invoice.AmountPaid;
+                parsedDto.Currency = invoice.Currency;
+
+                if (Enum.TryParse<InvoiceStatus>(invoice.Status, true, out var parsedStatus))
+                {
+                    parsedDto.InvoiceStatus = parsedStatus;
+                }
+
+                if (invoice.Parent != null && invoice.Parent.SubscriptionDetails != null)
+                {
+                    parsedDto.StripeSubscriptionId = invoice.Parent.SubscriptionDetails.SubscriptionId;
+                }
+
+                if (invoice.Lines != null && invoice.Lines.Data.Count > 0)
+                {
+                    var firstLineItem = invoice.Lines.Data[0];
+
+                    if (firstLineItem.Period != null)
+                    {
+                        parsedDto.CurrentPeriodStart = firstLineItem.Period.Start;
+                        parsedDto.CurrentPeriodEnd = firstLineItem.Period.End;
+                    }
+                }
             }
         }
 
