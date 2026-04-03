@@ -26,12 +26,25 @@ public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscripti
         var plan = await _context.Plans.FindAsync(new object[] { request.PlanId }, cancellationToken);
         Guard.Against.NotFound(request.PlanId, plan);
 
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == request.CustomerEmail, cancellationToken);
+        if (customer == null)
+        {
+            throw new InvalidOperationException("Customer not found.");
+        }
+
         if (!plan.IsActive || string.IsNullOrEmpty(plan.StripePriceId))
         {
             throw new InvalidOperationException("Selected plan is not available for subscription.");
         }
 
-        string checkoutUrl = await _paymentGatewayService.CreateCheckoutSessionAsync(plan.StripePriceId, request.CustomerEmail, request.SuccessUrl, request.CancelUrl, cancellationToken);
+        string checkoutUrl = await _paymentGatewayService.CreateCheckoutSessionAsync(
+            plan.StripePriceId,
+            customer.Email,
+            customer.Id,
+            plan.Id,
+            request.SuccessUrl,
+            request.CancelUrl,
+            cancellationToken);
 
         return checkoutUrl;
     }

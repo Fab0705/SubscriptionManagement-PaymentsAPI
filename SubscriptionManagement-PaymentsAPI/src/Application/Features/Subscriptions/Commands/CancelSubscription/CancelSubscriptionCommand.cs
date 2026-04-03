@@ -29,6 +29,7 @@ public class CancelSubscriptionCommandHandler : IRequestHandler<CancelSubscripti
         await _paymentGatewayService.CancelSubscriptionAsync(subscription.StripeSubscriptionId, cancellationToken);
         
         subscription.CancelAtPeriodEnd = true;
+        subscription.Status = SubscriptionStatus.Canceled;
 
         await _context.SaveChangesAsync(cancellationToken);
     }
