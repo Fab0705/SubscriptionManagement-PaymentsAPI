@@ -6,6 +6,73 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/Billing/invoices/{subscriptionId}": {
+      "get": {
+        "tags": [
+          "Billing"
+        ],
+        "operationId": "GetInvoiceHistory",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Billing/cutomer-portal": {
+      "post": {
+        "tags": [
+          "Billing"
+        ],
+        "operationId": "GeneratePortal",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateCustomerPortalCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/Customer": {
       "get": {
         "tags": [
@@ -274,51 +341,22 @@
         ]
       }
     },
-    "/api/TodoItems": {
+    "/api/Subcriptions": {
       "get": {
         "tags": [
-          "TodoItems"
+          "Subcriptions"
         ],
-        "operationId": "GetTodoItemsWithPagination",
-        "parameters": [
-          {
-            "name": "ListId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "PageNumber",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "PageSize",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 3
-          }
-        ],
+        "operationId": "GetSubscriptions",
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedListOfTodoItemBriefDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubscriptionsDTO"
+                  }
                 }
               }
             }
@@ -332,208 +370,28 @@
       },
       "post": {
         "tags": [
-          "TodoItems"
+          "Subcriptions"
         ],
-        "operationId": "CreateTodoItem",
+        "operationId": "CreateSubscription",
         "requestBody": {
           "x-name": "command",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoItemCommand"
+                "$ref": "#/components/schemas/CreateSubscriptionCommand"
               }
             }
           },
           "required": true,
           "x-position": 1
         },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "guid"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
-    "/api/TodoItems/{id}": {
-      "put": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "UpdateTodoItem",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoItemCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "204": {
-            "description": ""
-          },
-          "400": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "DeleteTodoItem",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
-    "/api/TodoItems/UpdateDetail/{id}": {
-      "put": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "UpdateTodoItemDetail",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoItemDetailCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "204": {
-            "description": ""
-          },
-          "400": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
-    "/api/TodoLists": {
-      "get": {
-        "tags": [
-          "TodoLists"
-        ],
-        "operationId": "GetTodoLists",
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodosVm"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "TodoLists"
-        ],
-        "operationId": "CreateTodoList",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTodoListCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "guid"
+                  "type": "string"
                 }
               }
             }
@@ -546,12 +404,86 @@
         ]
       }
     },
-    "/api/TodoLists/{id}": {
+    "/api/Subcriptions/{id}": {
+      "get": {
+        "tags": [
+          "Subcriptions"
+        ],
+        "operationId": "GetSubscriptionById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionsDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Subcriptions/{customerId}/customer": {
+      "get": {
+        "tags": [
+          "Subcriptions"
+        ],
+        "operationId": "GetSubscriptionByCustomerId",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionsDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Subcriptions/{id}/change-plan": {
       "put": {
         "tags": [
-          "TodoLists"
+          "Subcriptions"
         ],
-        "operationId": "UpdateTodoList",
+        "operationId": "UpdateSubscription",
         "parameters": [
           {
             "name": "id",
@@ -569,7 +501,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTodoListCommand"
+                "$ref": "#/components/schemas/ChangePlanCommand"
               }
             }
           },
@@ -577,10 +509,7 @@
           "x-position": 2
         },
         "responses": {
-          "204": {
-            "description": ""
-          },
-          "400": {
+          "200": {
             "description": ""
           }
         },
@@ -589,16 +518,18 @@
             "JWT": []
           }
         ]
-      },
-      "delete": {
+      }
+    },
+    "/api/Subcriptions/cancel": {
+      "put": {
         "tags": [
-          "TodoLists"
+          "Subcriptions"
         ],
-        "operationId": "DeleteTodoList",
+        "operationId": "PutApiSubcriptionsCancel",
         "parameters": [
           {
             "name": "id",
-            "in": "path",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string",
@@ -608,7 +539,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           }
         },
@@ -1013,37 +944,34 @@
         ]
       }
     },
-    "/api/WeatherForecasts": {
-      "get": {
+    "/api/Webhooks/stripe": {
+      "post": {
         "tags": [
-          "WeatherForecasts"
+          "Webhooks"
         ],
-        "operationId": "GetWeatherForecasts",
+        "operationId": "StripeWebhook",
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              }
-            }
+            "description": ""
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     }
   },
   "components": {
     "schemas": {
+      "GenerateCustomerPortalCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stripeCustomerId": {
+            "type": "string"
+          },
+          "returnUrl": {
+            "type": "string"
+          }
+        }
+      },
       "CustomerDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1070,10 +998,6 @@
           },
           "password": {
             "type": "string"
-          },
-          "stripeCustomerId": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
@@ -1128,14 +1052,6 @@
             "type": "number",
             "format": "decimal"
           },
-          "stripeProductId": {
-            "type": "string",
-            "nullable": true
-          },
-          "stripePriceId": {
-            "type": "string",
-            "nullable": true
-          },
           "isActive": {
             "type": "boolean"
           }
@@ -1176,244 +1092,99 @@
             "type": "number",
             "format": "decimal"
           },
-          "stripeProductId": {
-            "type": "string",
-            "nullable": true
-          },
-          "stripePriceId": {
-            "type": "string",
-            "nullable": true
-          },
           "isActive": {
             "type": "boolean"
           }
         }
       },
-      "PaginatedListOfTodoItemBriefDto": {
+      "SubscriptionsDTO": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoItemBriefDto"
-            }
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hasPreviousPage": {
-            "type": "boolean"
-          },
-          "hasNextPage": {
-            "type": "boolean"
-          }
-        }
-      },
-      "TodoItemBriefDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
+          "customerId": {
             "type": "string",
             "format": "guid"
           },
-          "listId": {
+          "planId": {
             "type": "string",
             "format": "guid"
           },
-          "title": {
+          "stripeSubscriptionId": {
             "type": "string",
             "nullable": true
           },
-          "done": {
+          "status": {
+            "$ref": "#/components/schemas/SubscriptionStatus"
+          },
+          "currentPeriodStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "currentPeriodEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cancelAtPeriodEnd": {
             "type": "boolean"
           }
         }
       },
-      "CreateTodoItemCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "listId": {
-            "type": "string",
-            "format": "guid"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateTodoItemCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "done": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UpdateTodoItemDetailCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "listId": {
-            "type": "string",
-            "format": "guid"
-          },
-          "priority": {
-            "$ref": "#/components/schemas/PriorityLevel"
-          },
-          "note": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "PriorityLevel": {
+      "SubscriptionStatus": {
         "type": "integer",
         "description": "",
         "x-enumNames": [
-          "None",
-          "Low",
-          "Medium",
-          "High"
+          "Incomplete",
+          "IncompleteExpired",
+          "Trialing",
+          "Active",
+          "PastDue",
+          "Canceled",
+          "Unpaid",
+          "Puased"
         ],
         "enum": [
           0,
           1,
           2,
-          3
+          3,
+          4,
+          5,
+          6,
+          7
         ]
       },
-      "TodosVm": {
+      "CreateSubscriptionCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "priorityLevels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LookupDto"
-            }
-          },
-          "lists": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoListDto"
-            }
-          }
-        }
-      },
-      "LookupDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
+          "planId": {
             "type": "string",
             "format": "guid"
           },
-          "title": {
-            "type": "string",
-            "nullable": true
+          "customerEmail": {
+            "type": "string"
+          },
+          "successUrl": {
+            "type": "string"
+          },
+          "cancelUrl": {
+            "type": "string"
           }
         }
       },
-      "TodoListDto": {
+      "ChangePlanCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
+          "subscriptionId": {
             "type": "string",
             "format": "guid"
           },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "colour": {
-            "type": "string",
-            "nullable": true
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoItemDto"
-            }
-          }
-        }
-      },
-      "TodoItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
+          "newPlanId": {
             "type": "string",
             "format": "guid"
-          },
-          "listId": {
-            "type": "string",
-            "format": "guid"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "done": {
-            "type": "boolean"
-          },
-          "priority": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "note": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "CreateTodoListCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "title": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateTodoListCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
@@ -1639,27 +1410,6 @@
           "oldPassword": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "WeatherForecast": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "summary": {
-            "type": "string"
           }
         }
       }
