@@ -84,12 +84,6 @@ public class StripePaymentService : IPaymentGatewayService
 
             BillingAddressCollection = "auto",
 
-            CustomerUpdate = new SessionCustomerUpdateOptions
-            {
-                Name = "auto",
-                Address = "auto",
-            },
-
             Metadata = new Dictionary<string, string>
             {
                 { "CustomerId", customerId.ToString() },
