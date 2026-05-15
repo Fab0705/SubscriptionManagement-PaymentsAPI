@@ -104,8 +104,32 @@ For this project, User Secrets were used exclusively for Stripe configuration, s
 
 ## 3. Run Migrations
 
+Before to do migration's command, we need to check if we have `dotnet ef` installed, locally or globally.
+You can check it with this command:
+
 ```bash
-dotnet ef database update
+dotnet tool list --global
+```
+
+If the result is like this:
+
+```bash
+Package Id           Version      Commands 
+-------------------------------------------
+dotnet-ef            10.0.8       dotnet-ef
+```
+
+It's fine. But if this result is empty, so run the next command:
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+Once this is done, you can apply the migration command:
+
+```bash
+cd SubscriptionManagement-PaymentsAPI \
+dotnet ef database update --project src/Infrastructure --startup-project src/Web
 ```
 
 ## 4. Run Application (in Web Layer) 
