@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "x-generator": "NSwag v14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "SubscriptionManagement_PaymentsAPI API",
@@ -963,6 +963,10 @@
       "GenerateCustomerPortalCommand": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "stripeCustomerId",
+          "returnUrl"
+        ],
         "properties": {
           "stripeCustomerId": {
             "type": "string"
@@ -1038,6 +1042,11 @@
       "CreatePlanCommand": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "name",
+          "description",
+          "price"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -1074,6 +1083,11 @@
       "UpdatePlanCommand": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "name",
+          "description",
+          "price"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -1158,6 +1172,11 @@
       "CreateSubscriptionCommand": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "customerEmail",
+          "successUrl",
+          "cancelUrl"
+        ],
         "properties": {
           "planId": {
             "type": "string",
@@ -1244,6 +1263,10 @@
       "RegisterRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string"
@@ -1256,6 +1279,11 @@
       "AccessTokenResponse": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "accessToken",
+          "expiresIn",
+          "refreshToken"
+        ],
         "properties": {
           "tokenType": {
             "type": "string"
@@ -1275,6 +1303,10 @@
       "LoginRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string"
@@ -1295,6 +1327,9 @@
       "RefreshRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "refreshToken"
+        ],
         "properties": {
           "refreshToken": {
             "type": "string"
@@ -1304,6 +1339,9 @@
       "ResendConfirmationEmailRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "email"
+        ],
         "properties": {
           "email": {
             "type": "string"
@@ -1313,6 +1351,9 @@
       "ForgotPasswordRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "email"
+        ],
         "properties": {
           "email": {
             "type": "string"
@@ -1322,6 +1363,11 @@
       "ResetPasswordRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "email",
+          "resetCode",
+          "newPassword"
+        ],
         "properties": {
           "email": {
             "type": "string"
@@ -1337,6 +1383,12 @@
       "TwoFactorResponse": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "sharedKey",
+          "recoveryCodesLeft",
+          "isTwoFactorEnabled",
+          "isMachineRemembered"
+        ],
         "properties": {
           "sharedKey": {
             "type": "string"
@@ -1386,6 +1438,10 @@
       "InfoResponse": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "email",
+          "isEmailConfirmed"
+        ],
         "properties": {
           "email": {
             "type": "string"
