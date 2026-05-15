@@ -33,6 +33,7 @@
       <PackageReference Include="Moq" />
       <PackageReference Include="Respawn" />
       <PackageReference Include="Shouldly" />
+      <PackageReference Include="System.Security.Cryptography.Xml" />
       <PackageReference Include="Testcontainers.PostgreSql" />
     </ItemGroup>
     
