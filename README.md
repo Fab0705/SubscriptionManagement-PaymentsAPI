@@ -104,14 +104,14 @@ For this project, User Secrets were used exclusively for Stripe configuration, s
 
 ## 3. Run Migrations
 
-Before to do migrations's command, to check if we have `dotnet ef` installed, locally or globally.
+Before to do migration's command, we need to check if we have `dotnet ef` installed, locally or globally.
 You can check it with this command:
 
 ```bash
 dotnet tool list --global
 ```
 
-If the the result is like this:
+If the result is like this:
 
 ```bash
 Package Id           Version      Commands 
@@ -119,7 +119,7 @@ Package Id           Version      Commands
 dotnet-ef            10.0.8       dotnet-ef
 ```
 
-It's fine. Buy if this result is empty, so run the next command:
+It's fine. But if this result is empty, so run the next command:
 
 ```bash
 dotnet tool install --global dotnet-ef
