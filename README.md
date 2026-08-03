@@ -1,4 +1,9 @@
-# SubscriptionManagement-PaymentsAPI
+# 💳 SubscriptionManagement-PaymentsAPI
+
+[![.NET](https://img.shields.io/badge/.NET-10.0-purple)](https://dotnet.microsoft.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Blue)](https://www.postgresql.org/)
+[![Stripe](https://img.shields.io/badge/Stripe-Integration-indigo)](https://stripe.com/)
+[![Architecture](https://img.shields.io/badge/Clean_Architecture-Jason_Taylor-success)](#)
 
 Robust RESTful API for managing subscriptions, billing, and plan control in SaaS environments and custom solutions. Built with .NET 10 following Clean Architecture principles, with native Stripe integration and ready support for multi-tenant architectures.
 
@@ -6,67 +11,45 @@ The project is actively evolving, incorporating continuous improvements and new 
 
 ---
 
-# Tech Stack
-- .NET 10 / C#
-- ASP.NET Core Web API
-- Entity Framework Core (PostgreSQL)
-- Stripe.NET SDK
-- MediatR (CQRS)
-- FluentValidation
-- JWT Authentication (Bearer)
-- Clean Architecture (Jason Taylor template)
-  
----
-
-# Project Architecture
+## 🏗️ Tech Stack & Architecture
 
 The project follows a strict implementation of **Clean Architecture**, ensuring low coupling and high maintainability.
 
-### Domain
-- Use cases (Commands / Queries)
-- Interfaces (Contracts)
-- Validations with FluentValidation
-- Orchestration with MediatR
-  
-### Infrastructure
-- Persistence with Entity Framework Core
-- Implementation of external services (Stripe)
-- Identity configuration (JWT)
-- Data access (PostgreSQL)
-  
-### Web / API
-- REST Controllers
-- Middlewares (Error handling, basis for multi-tenant)
-- DI Configuration
-- Authentication Endpoints and Webhooks
-  
+| Layer | Technologies & Patterns | Purpose |
+| :--- | :--- | :--- |
+| **Web / API** | ASP.NET Core Web API, JWT | REST Controllers, Middlewares (Error handling, basis for multi-tenant), DI Configuration, Authentication Endpoints and Webhooks. |
+| **Application** | MediatR (CQRS), FluentValidation | Orchestration with MediatR, validations with FluentValidation, and use cases (Commands / Queries). |
+| **Domain** | C# / .NET 10 | Interfaces (Contracts). |
+| **Infrastructure**| Entity Framework Core, Stripe.NET SDK | PostgreSQL data access, implementation of external services (Stripe), and Identity configuration (JWT). |
+
 ---
 
 # Main features
 
-- Decoupled architecture ready to evolve into microservices
-- Authentication with JWT
-- Full integration with Stripe:
-  - Creating checkout sessions
-  - Synchronizing subscriptions
-  - Handling events via webhooks
-- Just-in-Time (JIT) automatic customer creation
-- Centralized error handling
-- Ready for SaaS or custom solutions
-- ⚙️ Structural base for multi-tenant support (in active development)
+*   **Decoupled Architecture:** Ready to evolve into microservices.
+*   **Authentication:** JWT-based flow, including credential validation with bcrypt, token generation, and usage on protected endpoints.
+*   **Stripe Integration:** Full support for creating checkout sessions, synchronizing subscriptions, and handling events via webhooks.
+*   **Smart Customer Management:** Just-in-Time (JIT) automatic customer creation.
+*   **Multi-Tenant Ready:** Structural base in active development, including prepared identity structure, initial middleware for tenant resolution, and claims in JWT (`tenantId`).
+*   **Centralized Error Handling:** Global middleware catches exceptions (`401 Unauthorized` for invalid credentials, `500 Internal Server Error` for uncontrolled errors).
   
 ---
 
-# Authentication
+## 📂 Project Structure
 
-The API uses JWT-based authentication.
+```plaintext
+src/
+ ├── Domain/
+ ├── Application/
+ ├── Infrastructure/
+ └── Web/
 
-Flow:
-
-1. Log in with email and password
-2. Credential validation (bcrypt)
-3. JWT token generation
-4. Use of the token on protected endpoints
+tests/
+ ├── Domain.UnitTests/
+ ├── Application.UnitTests/
+ ├── Application.FunctionalTests/
+ └── Infrastructure.IntegrationTests/
+```
    
 ---
 
@@ -230,6 +213,9 @@ You can open an issue or submit a pull request.
 
 ---
 
-# Author
+# 👨‍💻 Author
 
-Developed as part of a modular system geared towards SaaS and scalable enterprise solutions in .NET and Azure.
+Fabian Cristobal
+Systems Information & Software Engineering
+
+Developed as part of a modular system geared towards SaaS and scalable enterprise solutions in .NET and Azure[cite: 1].
